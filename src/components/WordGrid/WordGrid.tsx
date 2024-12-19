@@ -1,14 +1,14 @@
 import styles from "./WordGrid.module.css";
 
-// type WordGridProps = {
-//   guessedLetters: string[];
-// };
+type WordGridProps = {
+  currentWord: string;
+ };
 
-export function WordGrid()
+export function WordGrid({currentWord}: WordGridProps)
 //{ guessedLetters }: WordGridProps)
 {
-  const totalRows = 5;
-  const totalColumns = 6;
+  const totalRows = 6;
+  const totalColumns = 5;
   const totalSquares = totalRows * totalColumns;
 
   return (
@@ -19,7 +19,7 @@ export function WordGrid()
         return (
           <div className={styles['tile']} key={index}>
             <p className={styles['text']}>
-              {/* {letter} */}
+              {currentWord[index] || ""}
             </p>
           </div>
         );

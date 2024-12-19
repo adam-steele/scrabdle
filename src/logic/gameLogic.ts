@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { handleKeyUp as gameLogicHandleKeyUp } from "./game_logic";
+import { handleKeyUp as gameLogicHandleKeyUp } from "./gameLogicHandleKeyUp.ts";
 
 export const useGameLogic = () => {
   const [currentWord, setCurrentWord] = useState("");

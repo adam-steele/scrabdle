@@ -1,8 +1,8 @@
 import "react";
 // { useCallback, useEffect, useState }
- import { Keyboard } from "./Keyboard"
-import {WordGrid} from "./WordGrid";
-import { useGameLogic } from "./hooks/useGameLogic";
+ import { Keyboard } from "./Keyboard/Keyboard"
+import {WordGrid} from "./WordGrid/WordGrid";
+import { useGameLogic } from "../hooks/useGameLogic";
 // import {handleKeyUp} from "./game_logic.ts";
 // import KEYS from './keys.ts';
 // import axios from "axios";
@@ -10,11 +10,13 @@ import { useGameLogic } from "./hooks/useGameLogic";
 
 function App() {
 
-  const { currentWord, handleKeyUp, addLetterToWord } = useGameLogic();
+  const { currentWord, handleKeyUp,
+    //  addLetterToWord
+     } = useGameLogic();
 
-  const { handleKeyUp
-    // currentWord, , addLetterToWord
-  } = useGameLogic();
+  // const { handleKeyUp
+  //   // currentWord, , addLetterToWord
+  // } = useGameLogic();
 
 
   const handleKeyClick = (key: string) => {
@@ -61,7 +63,7 @@ function App() {
       <div>
       {/* <p style={{color: 'white', margin: "10px 47%"}}>Score: {gameScore}</p> */}
 
-        <WordGrid />
+        <WordGrid currentWord = {currentWord} />
         <Keyboard onKeyClick={handleKeyClick}
         />
 

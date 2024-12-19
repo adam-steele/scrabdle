@@ -1,5 +1,5 @@
 import  styles  from "./Keyboard.module.css";
-import KEYS, { KeyInfo } from './keys';
+import KEYS, { KeyInfo } from '../../data/keys';
 
 
 // type KeyboardProps = {
@@ -26,8 +26,8 @@ export function Keyboard({ onKeyClick }: KeyboardProps) {
 
         <button
           onClick={() => handleClick(key.key)}
-          data-key={key.key === 'Delete' || key.key === 'Enter' ? undefined : key.key}
-          data-delete={key.key === 'Delete' ? '' : undefined}
+          data-key={key.key === 'Backspace' || key.key === 'Enter' ? undefined : key.key}
+          data-delete={key.key === 'Backspace' ? '' : undefined}
           data-enter={key.key === 'Enter' ? '' : undefined}
           key={key.key}
           id={key.key}
