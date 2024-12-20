@@ -2,7 +2,8 @@ const handleKeyUp = (
   event: KeyboardEvent,
   addLetter: (letter: string) => void,
   deleteLastLetter: () => void,
-  resetWord: () => void
+  resetWord: () => void,
+  isWordValid: () => void,
 ) => {
   const key = event.key;
 
@@ -10,6 +11,7 @@ const handleKeyUp = (
   const actions: { [key: string]: () => void } = {
     Enter: () => {
       console.log("Enter pressed");
+      isWordValid(),
       resetWord();
     },
     Backspace: () => {
