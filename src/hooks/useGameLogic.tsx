@@ -4,7 +4,7 @@ import { isWordValid as validateWord } from "../validation/wordValidation";
 
 export const useGameLogic = () => {
   const [currentWord, setCurrentWord] = useState("");
-
+  const [confirmedWords, setConfirmedWords] = useState<string[]>([])
   // const addLetterToWord = (letter: string) => {
   //   if (currentWord.length < 5) {
   //     setCurrentWord((prev) => prev + letter);
@@ -31,6 +31,7 @@ export const useGameLogic = () => {
     const isValid = await validateWord(currentWord);
     if (isValid) {
       console.log("Valid word!");
+      setConfirmedWords((prev) => [...prev, currentWord])
       // Add additional logic here for valid words
     } else {
       console.log("Invalid word. Try again!");
@@ -41,7 +42,7 @@ export const useGameLogic = () => {
   const addLetter = useCallback((letter: string) => {
     if (currentWord.length < 5) {
       setCurrentWord((prev) => prev + letter);
-      console.log(`addLetter called in useGameLogic Hook currentWord now :${currentWord}`)
+      // console.log(`addLetter called in useGameLogic Hook currentWord now :${currentWord}`)
     }
   }, [currentWord]);
 
@@ -65,5 +66,5 @@ export const useGameLogic = () => {
     };
   }, [handleKeyUp]);
 
-  return {currentWord, addLetter, deleteLastLetter, resetWord, handleKeyUp };
+  return {currentWord, confirmedWords, addLetter, deleteLastLetter, resetWord, handleKeyUp };
 };

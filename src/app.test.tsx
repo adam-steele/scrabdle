@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import App from './App';
+import App from '../src/components/App';
 
 test('allows deletion of letters until Enter is pressed', () => {
   render(<App />);
@@ -38,4 +38,3 @@ test('allows deletion of letters until Enter is pressed', () => {
   fireEvent.click(deleteButton);
   expect(scoreElement.textContent).toBe('Score: 4');
 });
-
