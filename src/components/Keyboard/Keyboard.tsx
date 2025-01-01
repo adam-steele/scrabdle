@@ -41,6 +41,10 @@ export function Keyboard({ onKeyClick }: KeyboardProps) {
 
         >
           {key.key}
+          <sub
+          className= {styles['keyboard-subscript']}>
+              {key.letterScore > 0 ? key.letterScore : ""}
+          </sub>
         </button>
 
       ))}
