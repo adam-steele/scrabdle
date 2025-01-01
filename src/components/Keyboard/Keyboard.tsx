@@ -27,7 +27,7 @@ export function Keyboard({ onKeyClick }: KeyboardProps) {
         <button
           onClick={() => handleClick(key.key)}
           data-key={key.key === 'Backspace' || key.key === 'Enter' ? undefined : key.key}
-          data-delete={key.key === 'Backspace' ? '' : undefined}
+          data-delete={key.key === 'Backspace' || key.key === 'Delete' ? '' : undefined}
           data-enter={key.key === 'Enter' ? '' : undefined}
           key={key.key}
           id={key.key}

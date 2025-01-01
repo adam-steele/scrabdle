@@ -10,7 +10,7 @@ import { useGameLogic } from "../hooks/useGameLogic";
 
 function App() {
 
-  const { currentWord, handleKeyUp, confirmedWords
+  const { currentWord, currentScore, confirmedScore, handleKeyUp, confirmedWords
     //  addLetterToWord
      } = useGameLogic();
 
@@ -62,7 +62,10 @@ function App() {
 
       <div>
       {/* <p style={{color: 'white', margin: "10px 47%"}}>Score: {gameScore}</p> */}
-
+        <p style={{color: 'white', margin: "10px 10%"}}>
+          Current Word score: {currentScore} <br/>
+          Confirmed Score: {confirmedScore}
+          </p>
         <WordGrid
         currentWord = {currentWord}
         confirmedWords = {confirmedWords}

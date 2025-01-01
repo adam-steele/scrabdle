@@ -26,6 +26,39 @@
   user-select: none;
 }
 
+.subscript {
+  font-size: 0.5em;
+}
+
+.one-point{
+  color: red;
+}
+
+.two-points{
+  color: orange;
+}
+
+.three-points{
+  color: yellow;
+}
+
+.four-points{
+  color: blue;
+}
+
+.five-points{
+  color: lightblue;
+}
+
+.eight-points{
+  color: green;
+}
+
+.ten-points{
+ color: purple;
+}
+
+
 /* .text{
    font-size: ;
 } */

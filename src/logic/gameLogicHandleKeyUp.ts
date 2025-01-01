@@ -18,6 +18,10 @@ const handleKeyUp = (
       console.log("Backspace pressed");
       deleteLastLetter();
     },
+    Delete: () => {
+      console.log("Backspace pressed");
+      deleteLastLetter();
+    },
     Space: () => {
       console.log("Space pressed, ignoring...");
     },
@@ -29,6 +33,7 @@ const handleKeyUp = (
   } else if (/^[a-zA-Z]$/.test(key)) {
     console.log("Letter pressed:", key);
     addLetter(key); // Handle letter keys
+
   } else {
     console.log("Unhandled key:", key);
   }
