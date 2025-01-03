@@ -21,7 +21,7 @@
  font-size: 1em;
  font-weight: 500;
  font-family: inherit;
- background-color: hsl(240, 0%, 49%);
+ background-color: #7f7f7f;
  cursor: pointer;
  transition: border-color 0.25s;
 }

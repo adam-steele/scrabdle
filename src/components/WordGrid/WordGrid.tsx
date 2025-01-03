@@ -40,7 +40,7 @@ export function WordGrid({
                   letter
                   }
                   <sub className= {`
-                  ${styles['subscript']}
+                  ${styles['subscript'] }
                   ${letterScore === 1 ? styles['one-point'] : ''}
                   ${letterScore === 2 ? styles['two-points'] : ''}
                   ${letterScore === 3 ? styles['three-points'] : ''}
