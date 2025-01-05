@@ -25,6 +25,11 @@ function App() {
     handleKeyUp(simulatedEvent);
   };
 
+  const scoreMessage =
+  confirmedWords.length <= 6
+    ? `Current Score: ${currentScore}`
+    : `Extra Score: ${currentScore}`;
+
     // const [turn, setTurn] = useState(0); // six turns calculate score
     // const [currentWord,setCurrentWord] = useState<string>([])
     // const [guesses, setGuesses] = useState<string[]>([])
@@ -63,7 +68,8 @@ function App() {
       <div>
       {/* <p style={{color: 'white', margin: "10px 47%"}}>Score: {gameScore}</p> */}
         <p style={{color: 'white', margin: "10px 10%"}}>
-          Current Word score: {currentScore} <br/>
+          {scoreMessage}
+          <br/>
           Confirmed Score: {confirmedScore}
           </p>
         <WordGrid
@@ -72,8 +78,6 @@ function App() {
         />
         <Keyboard onKeyClick={handleKeyClick}
         />
-
-      this is a MF test
       </div>
   );
 }

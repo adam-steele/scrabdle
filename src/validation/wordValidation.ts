@@ -8,12 +8,7 @@ import axios from "axios";
  * returns A promise that resolves to `true` if valid, `false` otherwise.
  */
 export const isWordValid = async (word: string): Promise<boolean> => {
-  // Check if the word has exactly 5 letters
-  if (word.length !== 5) {
-    console.log("Word must be exactly 5 letters.");
-    return false;
-  }
-
+  
   try {
     // Make a GET request to the dictionary API
     const response = await axios.get(
