@@ -10,7 +10,8 @@ import { useGameLogic } from "../hooks/useGameLogic";
 
 function App() {
 
-  const { currentWord, currentScore, confirmedScore, handleKeyUp, confirmedWords
+  const { currentWord, currentScore, confirmedScore, handleKeyUp, confirmedWords,
+      //confirmedVerticalWords
     //  addLetterToWord
      } = useGameLogic();
 
@@ -25,16 +26,21 @@ function App() {
     handleKeyUp(simulatedEvent);
   };
 
-  const scoreMessage =
+  const currentScoreMessage =
   confirmedWords.length <= 6
     ? `Current Score: ${currentScore}`
     : `Extra Score: ${currentScore}`;
+
+  const confirmedScoreMessage =
+  confirmedWords.length <= 6
+      ? `Confirmed Score: ${confirmedScore}`
+      : `Final Score: ${confirmedScore + currentScore}`;
 
     // const [turn, setTurn] = useState(0); // six turns calculate score
     // const [currentWord,setCurrentWord] = useState<string>([])
     // const [guesses, setGuesses] = useState<string[]>([])
     // const [history, setHistory] = useState<string[]>([])
-
+  // console.log(confirmedVerticalWords)
 
   /*
 
@@ -68,9 +74,9 @@ function App() {
       <div>
       {/* <p style={{color: 'white', margin: "10px 47%"}}>Score: {gameScore}</p> */}
         <p style={{color: 'white', margin: "10px 10%"}}>
-          {scoreMessage}
+          {currentScoreMessage}
           <br/>
-          Confirmed Score: {confirmedScore}
+          {confirmedScoreMessage}
           </p>
         <WordGrid
         currentWord = {currentWord}

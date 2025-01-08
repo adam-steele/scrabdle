@@ -8,8 +8,9 @@ export const useGameLogic = () => {
   const [currentWord, setCurrentWord] = useState("");
   const [currentScore, setCurrentScore] = useState(0);
   const [confirmedWords, setConfirmedWords] = useState<string[]>([])
+  const [confirmedVerticalWords, setConfirmedVerticalWords] = useState<string[]>([])
   const [confirmedScore, setConfirmedScore] = useState(0)
-  const [vertWordLetters, setVertWordLetters] = useState<string[][]>([])
+  // const [vertWordLetters, setVertWordLetters] = useState<string[][]>([])
 
     const calcVertAndDiagScores = useEffect(
     () => {
@@ -22,55 +23,79 @@ export const useGameLogic = () => {
             confirmedWords.map((word) => word[index]).join('')
           )
 
-          const testingWords = Array.from({ length: confirmedWords[0].length }, (_, index) => {
-            // Extract all vertical letters at the current index
+          verticalWords.forEach(async (word) => {
+            console.log(`Processing vertical word: ${word}`);
+            let validWordFound = false; // Flag to stop checking shorter lengths once valid
 
-            const allVertLetters = confirmedWords.map((word) => word[index]);
+            // Check lengths from 6 to 3
+            for (let length = 6; length >= 3; length--) {
+              const substring = word.substring(0, length); // Get substring of current length
+              const isValid = await validateWord(substring); // Validate the word
 
-            setVertWordLetters ((prev)=> [...prev, allVertLetters])
-            console.log(`these are the vertical words in letter arrays : ${vertWordLetters[0]}`)
-            // Split into chunks of 6
-          });
-        // const diagonalWords = Array.from({length: confirmedWords[0].length},(_,index) =>
-        //   confirmedWords.map((word) => word[index]).join('')
-        // )
-        console.log(`these are the testing words: ${testingWords}`)
-        console.log(`these are the vertical words: ${verticalWords}`)
-        // console.log(`these are the vertical words in letter arrays: ${vertWordLetters[0]}`)
+              if (isValid) {
+                console.log(`Valid word found: ${substring}`);
+                // if (confirmedVerticalWords.find((word)=>word===substring)){
+                  setConfirmedWords((prev)=>[...prev,substring])
+                  // setConfirmedVerticalWords((prev)=>[...prev,substring])
+                  setConfirmedVerticalWords((prev)=>[...prev,substring])
+                  validWordFound = true
+                  break;
+                // }
+                // validWordFound = true;
+                // break;
+              }
 
-        verticalWords.map(
-          async (word) => {
-            console.log(`each vertical word inside vertwords map ${word}`)
-           const isValid = await validateWord(word)
-           if (isValid) {
-            console.log("Valid word! inside VerticalWords.map");
-            // if its a word add it too confirmed words
-            setConfirmedWords((prev) => [...prev, word])
-            // get the letters from the valid words
-            const letters = [...word]
-            //go through letters get their score and add that to current score
-            letters.map((letter)=> {
-              const letterScore = getLetterScore(letter)
-              setCurrentScore((prev)=>prev + letterScore)
-            })
-            //add current score to confirmedScore
-            setConfirmedScore((prev) => prev + currentScore)
-            // Add additional logic here for valid words
-          } else {
-            console.log("Invalid word. Try again! inside VerticalWords.map ");
-            // alert("Not A valid Word Try Again inside VerticalWords.map ")
-          }
+            }
+            console.log(`confirmed verticalWords: ${confirmedVerticalWords}`)
+            console.log(`validWord? is${validWordFound}`)
+            if (!validWordFound) {
+              console.log(`No valid substring found for vertical word: ${word}`);
+            }
+          })
 
-          }
-        )
 
-      }
-      else{
-        return
+
+
+
+
+
+
+
+  //       verticalWords.map(
+  //         async (word:string) => {
+  //           console.log(`each vertical word inside vertwords map ${word}`)
+  //          const isValid = await validateWord(word)
+  //          if (isValid) {
+  //           console.log("Valid word! inside VerticalWords.map");
+  //           // if its a word add it too confirmed words
+  //           setConfirmedWords((prev) => [...prev, word])
+  //           // get the letters from the valid words
+  //           const letters = [...word]
+  //           //go through letters get their score and add that to current score
+  //           letters.map((letter)=> {
+  //             const letterScore = getLetterScore(letter)
+  //             setCurrentScore((prev)=>prev + letterScore)
+  //           })
+  //           //add current score to confirmedScore
+  //           setConfirmedScore((prev) => prev + currentScore)
+  //           // Add additional logic here for valid words
+  //         } else {
+  //           console.log("Invalid word. Try again! inside VerticalWords.map ");
+  //           // alert("Not A valid Word Try Again inside VerticalWords.map ")
+  //         }
+
+  //         }
+  //       )
+
+  //     }
+  //     else{
+  //       return
       }
     },
-    [confirmedWords, currentScore, currentWord],
+    [confirmedWords, currentScore, currentWord, confirmedVerticalWords],
   )
+
+
 
 
   const checkWordValidity = useCallback(async () => {
@@ -101,7 +126,7 @@ export const useGameLogic = () => {
       calcVertAndDiagScores
     }
     else return
-  }, [currentWord,confirmedWords, calcVertAndDiagScores]);
+  }, [currentWord,confirmedWords,calcVertAndDiagScores]);
 
   const deleteLastLetter = useCallback(() => {
     const letter2Delete = currentWord.slice(-1);
@@ -125,11 +150,12 @@ export const useGameLogic = () => {
   }, [addLetter, deleteLastLetter, resetWord, checkWordValidity]);
 
   useEffect(() => {
-    window.addEventListener("keyup", handleKeyUp);
-    return () => {
+    window.addEventListener("keyup", handleKeyUp);``
+    return () => {`~`
       window.removeEventListener("keyup", handleKeyUp);
     };
   }, [handleKeyUp]);
 
-  return {currentWord, confirmedWords, currentScore, confirmedScore, addLetter, deleteLastLetter, resetWord, handleKeyUp };
+  console.log(`confirmed verticalWords end of function: ${confirmedVerticalWords}`)
+  return {currentWord, confirmedWords, currentScore, confirmedScore, addLetter, deleteLastLetter, resetWord, handleKeyUp, confirmedVerticalWords };
 };
