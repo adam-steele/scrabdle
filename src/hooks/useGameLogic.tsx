@@ -44,7 +44,7 @@ export const useGameLogic = () => {
 
           if (!validWordFound) {
             console.log(`No valid substring found for vertical word: ${word}`);
-            // setConfirmedVerticalWords((prev) => [...prev, ""])
+            setConfirmedVerticalWords((prev) => [...prev, ""])
           }
         }
       }
