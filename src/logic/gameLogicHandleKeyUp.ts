@@ -32,7 +32,8 @@ const handleKeyUp = (
     actions[key](); // Call the appropriate action
   } else if (/^[a-zA-Z]$/.test(key)) {
     console.log("Letter pressed:", key);
-    addLetter(key); // Handle letter keys
+    const lowercasekey= key.toLowerCase()
+    addLetter(lowercasekey); // Handle letter keys
 
   } else {
     console.log("Unhandled key:", key);
