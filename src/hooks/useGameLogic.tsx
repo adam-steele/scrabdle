@@ -1,101 +1,57 @@
+import { isWordValid as validateWord} from "../validation/wordValidation";
 import { useState, useEffect, useCallback } from "react";
 import { handleKeyUp as gameLogicHandleKeyUp } from "../logic/gameLogicHandleKeyUp";
-import { isWordValid as validateWord } from "../validation/wordValidation"
+
 // import  KEYS from "../data/keys";
 import { getLetterScore } from "../utils/scoreUtils";
 
 export const useGameLogic = () => {
   const [currentWord, setCurrentWord] = useState("");
   const [currentScore, setCurrentScore] = useState(0);
-  const [confirmedWords, setConfirmedWords] = useState<string[]>([])
-  const [confirmedVerticalWords, setConfirmedVerticalWords] = useState<string[]>([])
-  const [confirmedScore, setConfirmedScore] = useState(0)
-  // const [vertWordLetters, setVertWordLetters] = useState<string[][]>([])
+  const [confirmedWords, setConfirmedWords] = useState<string[]>([]);
+  const [confirmedVerticalWords, setConfirmedVerticalWords] = useState<string[]>([]);
+  const [confirmedScore, setConfirmedScore] = useState(0);
 
-    const calcVertAndDiagScores = useEffect(
-    () => {
+  useEffect(() => {
+    const processVerticalWords = async () => {
+      if (confirmedWords.length === 6) {
+        const verticalWords = Array.from({ length: confirmedWords[0].length }, (_, index) =>
+          confirmedWords.map((word) => word[index]).join('')
+        );
 
+        for (const word of verticalWords) {
+          let validWordFound = false;
 
-      if (confirmedWords.length === 6)
-      {
+          for (let length = 6; length >= 3; length--) {
+            console.log(`Processing vertical word: ${word} with length: ${length}`);
+            const substring = word.substring(0, length);
+            const isValid = await validateWord(substring);
+            console.log(`substring: ${substring}`);
 
-          const verticalWords = Array.from({length: confirmedWords[0].length},(_,index) =>
-            confirmedWords.map((word) => word[index]).join('')
-          )
-
-          verticalWords.forEach(async (word) => {
-            console.log(`Processing vertical word: ${word}`);
-            let validWordFound = false; // Flag to stop checking shorter lengths once valid
-
-            // Check lengths from 6 to 3
-            for (let length = 6; length >= 3; length--) {
-              const substring = word.substring(0, length); // Get substring of current length
-              const isValid = await validateWord(substring); // Validate the word
-
-              if (isValid) {
-                console.log(`Valid word found: ${substring}`);
-                // if (confirmedVerticalWords.find((word)=>word===substring)){
-                  setConfirmedWords((prev)=>[...prev,substring])
-                  // setConfirmedVerticalWords((prev)=>[...prev,substring])
-                  setConfirmedVerticalWords((prev)=>[...prev,substring])
-                  validWordFound = true
-                  break;
-                // }
-                // validWordFound = true;
-                // break;
-              }
-
+            if (isValid) {
+              console.log(`Valid word found: ${substring}`);
+              setConfirmedWords((prev) => [...prev, substring]);
+              setConfirmedVerticalWords((prev) => [...prev, substring]);
+              [...substring].map(
+                (letter)=> setCurrentScore(
+                  (prev) => prev + getLetterScore(letter)*2
+                )
+              )
+              validWordFound = true;
+              break;
             }
-            console.log(`confirmed verticalWords: ${confirmedVerticalWords}`)
-            console.log(`validWord? is${validWordFound}`)
-            if (!validWordFound) {
-              console.log(`No valid substring found for vertical word: ${word}`);
-            }
-          })
+          }
 
-
-
-
-
-
-
-
-
-  //       verticalWords.map(
-  //         async (word:string) => {
-  //           console.log(`each vertical word inside vertwords map ${word}`)
-  //          const isValid = await validateWord(word)
-  //          if (isValid) {
-  //           console.log("Valid word! inside VerticalWords.map");
-  //           // if its a word add it too confirmed words
-  //           setConfirmedWords((prev) => [...prev, word])
-  //           // get the letters from the valid words
-  //           const letters = [...word]
-  //           //go through letters get their score and add that to current score
-  //           letters.map((letter)=> {
-  //             const letterScore = getLetterScore(letter)
-  //             setCurrentScore((prev)=>prev + letterScore)
-  //           })
-  //           //add current score to confirmedScore
-  //           setConfirmedScore((prev) => prev + currentScore)
-  //           // Add additional logic here for valid words
-  //         } else {
-  //           console.log("Invalid word. Try again! inside VerticalWords.map ");
-  //           // alert("Not A valid Word Try Again inside VerticalWords.map ")
-  //         }
-
-  //         }
-  //       )
-
-  //     }
-  //     else{
-  //       return
+          if (!validWordFound) {
+            console.log(`No valid substring found for vertical word: ${word}`);
+            // setConfirmedVerticalWords((prev) => [...prev, ""])
+          }
+        }
       }
-    },
-    [confirmedWords, currentScore, currentWord, confirmedVerticalWords],
-  )
+    };
 
-
+    processVerticalWords();
+  }, [confirmedWords, currentScore, currentWord, confirmedVerticalWords]);
 
 
   const checkWordValidity = useCallback(async () => {
@@ -122,11 +78,13 @@ export const useGameLogic = () => {
         // console.log(`addLetter called in useGameLogic Hook currentWord now :${currentWord}`)
       }
     }
-    else if(confirmedWords.length === 6){
-      calcVertAndDiagScores
-    }
+    // else if(confirmedWords.length === 6){
+    //   processVerticalWords()
+    // }
     else return
-  }, [currentWord,confirmedWords,calcVertAndDiagScores]);
+  }, [currentWord,confirmedWords,
+    // calcVertAndDiagScores
+  ]);
 
   const deleteLastLetter = useCallback(() => {
     const letter2Delete = currentWord.slice(-1);

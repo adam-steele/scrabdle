@@ -11,6 +11,7 @@ import { useGameLogic } from "../hooks/useGameLogic";
 function App() {
 
   const { currentWord, currentScore, confirmedScore, handleKeyUp, confirmedWords,
+    confirmedVerticalWords
       //confirmedVerticalWords
     //  addLetterToWord
      } = useGameLogic();
@@ -79,6 +80,7 @@ function App() {
           {confirmedScoreMessage}
           </p>
         <WordGrid
+        confirmedVerticalWords={confirmedVerticalWords}
         currentWord = {currentWord}
         confirmedWords = {confirmedWords}
         />
