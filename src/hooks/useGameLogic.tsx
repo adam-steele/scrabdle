@@ -12,6 +12,48 @@ export const useGameLogic = () => {
   const [confirmedVerticalWords, setConfirmedVerticalWords] = useState<string[]>([]);
   const [confirmedScore, setConfirmedScore] = useState(0);
 
+  // useEffect(() => {
+  //   const processVerticalWords = async () => {
+  //     if (confirmedWords.length === 6) {
+  //       const verticalWords = Array.from({ length: confirmedWords[0].length }, (_, index) =>
+  //         confirmedWords.map((word) => word[index]).join('')
+  //       );
+
+  //       for (const word of verticalWords) {
+  //         let validWordFound = false;
+
+  //         for (let length = 6; length >= 3; length--) {
+  //           console.log(`Processing vertical word: ${word} with length: ${length}`);
+  //           const substring = word.substring(0, length);
+  //           const isValid = await validateWord(substring);
+  //           console.log(`substring: ${substring}`);
+
+  //           if (isValid) {
+  //             console.log(`Valid word found: ${substring}`);
+  //             setConfirmedWords((prev) => [...prev, substring]);
+  //             setConfirmedVerticalWords((prev) => [...prev, substring]);
+  //             [...substring].map(
+  //               (letter)=> setCurrentScore(
+  //                 (prev) => prev + getLetterScore(letter)*2
+  //               )
+  //             )
+  //             validWordFound = true;
+  //             break;
+  //           }
+  //         }
+
+  //         if (!validWordFound) {
+  //           console.log(`No valid substring found for vertical word: ${word}`);
+
+  //         }
+
+  //       }
+  //     }
+  //   };
+
+  //   processVerticalWords();
+  // }, [confirmedWords, currentScore, currentWord, confirmedVerticalWords]);
+
   useEffect(() => {
     const processVerticalWords = async () => {
       if (confirmedWords.length === 6) {
@@ -19,7 +61,10 @@ export const useGameLogic = () => {
           confirmedWords.map((word) => word[index]).join('')
         );
 
-        for (const word of verticalWords) {
+        const newConfirmedVerticalWords = Array(verticalWords.length).fill("");
+
+        for (let i = 0; i < verticalWords.length; i++) {
+          const word = verticalWords[i];
           let validWordFound = false;
 
           for (let length = 6; length >= 3; length--) {
@@ -30,13 +75,13 @@ export const useGameLogic = () => {
 
             if (isValid) {
               console.log(`Valid word found: ${substring}`);
+              newConfirmedVerticalWords[i] = substring;
               setConfirmedWords((prev) => [...prev, substring]);
-              setConfirmedVerticalWords((prev) => [...prev, substring]);
               [...substring].map(
-                (letter)=> setCurrentScore(
-                  (prev) => prev + getLetterScore(letter)*2
+                (letter) => setCurrentScore(
+                  (prev) => prev + getLetterScore(letter) * 2
                 )
-              )
+              );
               validWordFound = true;
               break;
             }
@@ -44,15 +89,15 @@ export const useGameLogic = () => {
 
           if (!validWordFound) {
             console.log(`No valid substring found for vertical word: ${word}`);
-            setConfirmedVerticalWords((prev) => [...prev, ""])
           }
         }
+
+        setConfirmedVerticalWords(newConfirmedVerticalWords);
       }
     };
 
     processVerticalWords();
   }, [confirmedWords, currentScore, currentWord, confirmedVerticalWords]);
-
 
   const checkWordValidity = useCallback(async () => {
     const isValid = await validateWord(currentWord);
