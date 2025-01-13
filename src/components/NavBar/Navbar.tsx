@@ -49,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = () => {
         <span className={styles['navbar-score-value']}>{highScoreMessage}</span>
       </div>
       <a
-      href='/'
+      href='https://adam-steele.github.io/scrabdle/'
       className={styles['navbar-new-game']}
       >
         New Game
