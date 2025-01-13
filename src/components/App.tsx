@@ -3,6 +3,7 @@ import "react";
  import { Keyboard } from "./Keyboard/Keyboard"
 import {WordGrid} from "./WordGrid/WordGrid";
 import { useGameLogic } from "../hooks/useGameLogic";
+import Navbar from "./NavBar/Navbar";
 // import {handleKeyUp} from "./game_logic.ts";
 // import KEYS from './keys.ts';
 // import axios from "axios";
@@ -10,7 +11,13 @@ import { useGameLogic } from "../hooks/useGameLogic";
 
 function App() {
 
-  const { currentWord, currentScore, confirmedScore, handleKeyUp, confirmedWords,
+  const {
+    currentWord,
+    handleKeyUp,
+    confirmedWords,
+    confirmedScore,
+    currentScore,
+    handleNewGame,
     confirmedVerticalWords
       //confirmedVerticalWords
     //  addLetterToWord
@@ -27,15 +34,25 @@ function App() {
     handleKeyUp(simulatedEvent);
   };
 
-  const currentScoreMessage =
-  confirmedWords.length <= 6
-    ? `Current Score: ${currentScore}`
-    : `Extra Score: ${currentScore}`;
+  const handleNewGameClick = () => {
+    if (localStorage) {
+      const highScore = localStorage.getItem("highScore");
+      const totalScore = confirmedScore + currentScore;
 
-  const confirmedScoreMessage =
-  confirmedWords.length <= 6
-      ? `Confirmed Score: ${confirmedScore}`
-      : `Final Score: ${confirmedScore + currentScore}`;
+      if (confirmedWords.length === 6) {
+        if (highScore) {
+          if (totalScore > parseInt(highScore)) {
+            localStorage.setItem("highScore", totalScore.toString());
+          }
+        } else {
+          localStorage.setItem("highScore", totalScore.toString());
+        }
+      }
+    }
+    handleNewGame();
+  };
+
+
 
     // const [turn, setTurn] = useState(0); // six turns calculate score
     // const [currentWord,setCurrentWord] = useState<string>([])
@@ -73,12 +90,7 @@ function App() {
   return (
 
       <div>
-      {/* <p style={{color: 'white', margin: "10px 47%"}}>Score: {gameScore}</p> */}
-        <p style={{color: 'white', margin: "10px 10%"}}>
-          {currentScoreMessage}
-          <br/>
-          {confirmedScoreMessage}
-          </p>
+        <Navbar onNewGame={handleNewGameClick}/>
         <WordGrid
         confirmedVerticalWords={confirmedVerticalWords}
         currentWord = {currentWord}

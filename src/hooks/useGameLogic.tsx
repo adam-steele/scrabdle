@@ -159,6 +159,14 @@ export const useGameLogic = () => {
     };
   }, [handleKeyUp]);
 
+  const handleNewGame = useCallback(() => {
+    setCurrentWord("");
+    setCurrentScore(0);
+    setConfirmedWords([]);
+    setConfirmedScore(0);
+    setConfirmedVerticalWords([]);
+  }, []);``
+
   console.log(`confirmed verticalWords end of function: ${confirmedVerticalWords}`)
-  return {currentWord, confirmedWords, currentScore, confirmedScore, addLetter, deleteLastLetter, resetWord, handleKeyUp, confirmedVerticalWords };
+  return {currentWord, confirmedWords, currentScore, confirmedScore, addLetter, deleteLastLetter, resetWord, handleKeyUp, handleNewGame, confirmedVerticalWords };
 };
