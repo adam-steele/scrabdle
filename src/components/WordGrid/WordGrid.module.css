@@ -67,10 +67,12 @@
   .word-grid-container {
     width: 95%;
     max-height: 90%;
+    margin: auto;
   }
   .word-grid{
-    grid-template-rows: repeat(6,12vh) ;
+    grid-template-rows: repeat(6,10vh) ;
     grid-template-columns: repeat(5,18vw) ;
+    padding-top: 10%;
   }
 
   .tile{

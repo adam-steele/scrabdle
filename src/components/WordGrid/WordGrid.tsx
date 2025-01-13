@@ -44,6 +44,7 @@ export function WordGrid({
   console.log(`the vertical word indices: ${[...verticalWordIndices]}`)
 
   return (
+   <div className={styles['word-grid-container']} >
     <div
       className={styles['word-grid']
     }>
@@ -95,5 +96,6 @@ export function WordGrid({
         );
       })}
     </div>
+   </div>
   );
 }
