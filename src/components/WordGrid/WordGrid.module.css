@@ -65,7 +65,7 @@
 
 @media only screen and (max-width: 600px) {
   .word-grid-container {
-    width: 95%;
+    width: 100%;
     max-height: 90%;
     margin: auto;
   }
